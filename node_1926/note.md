@@ -511,28 +511,6 @@ console.log('价格小于 20 清零');
 console.log(rows);
 ```
 
-- 单元测试
-## 自动化测试 mocha
-Mocha('摩卡')，诞生于2011年，现在比较流行的JavaSscript测试框架之一,可以运行于Node环境和浏览器环境
- 
-测试框架:可以运行测试的工具。通过他，可以为JavaScript应用 添加测试,从而保证代码质量
-> 参考文档
-[mochajs](https://mochajs.org/)
-[mocha中文文档](https://segmentfault.com/a/1190000011362879)
-### 安装配置
- 
-使用npm 全局安装
- 
-``` 
-$ npm install --global mocha
-```
- 
-项目依赖 局部安装 
- 
-```
-$ npm isntall mocha
-```
-
 ### token 验证
 + 用户登录 服务器端产生一个token (加密字符串) 发送给前端 
 + 前端将token 进行保存   
@@ -583,3 +561,123 @@ module.exports={
     - 访问 http://m.maoyan.com
     - app.use('/v1/restserver/ting', proxy({target: 'http://tingapi.ting.baidu.com', changeOrigin: true}));
     - 使用nodejs写一个代理服务访问不同域api
+
+    ## 文件上传
+
+    
+```ecmascript 6
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads')
+    },
+    // 给上传文件重命名
+    filename: function (req, file, cb) {
+        var fileFormat = file.originalname.split('.');
+
+        cb(null, file.fieldname + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);
+    }
+});
+
+const upload = multer({
+    storage: storage
+});
+
+
+const app = express();
+
+app.use('/static', express.static('public'));
+
+app.post('/upload-single', upload.single('logo'), function (req, res) {
+    console.log(req.file);
+
+    console.log('文件类型：%s', req.file.mimetype);
+    console.log('原始文件名：%s', req.file.originalname);
+    console.log((req.file.originalname).split("."));
+    console.log('文件大小：%s', req.file.size);
+    console.log('文件保存路径：%s', req.file.path);
+    console.log(req.body.username);
+    res.send({
+        ret_code: '0',
+        filepath: req.file.path
+    });
+});
+
+app.listen(3000);
+
+```
+前端
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="axios.min.js"></script>
+    <script>
+        function doUpload() {
+            /*
+            $.ajax({
+                url: '/upload-single',
+                type: 'POST',
+                cache: false, //不必须
+                data: new FormData($('#uploadForm')[0]),
+                processData: false,//必须
+                contentType: false,//必须
+                success: function(data) {
+                    console.log(data)
+                    if (data.ret_code === '0') {
+                        alert('上传成功 文件路径: ' + data.filepath)
+                    }
+                }
+            });
+            */
+
+              var instance = axios.create({
+                baseURL: '/',
+                timeout: 1000000,
+                headers: {
+                  "Content-Type": 'multipart/form-data'
+                }
+              });
+
+              instance.post('/upload-single', new FormData(document.getElementById('uploadForm'))).then((res) => {
+                console.log(res);
+                alert(JSON.stringify(res.data));
+              });
+        }
+    </script>
+</head>
+<body>
+    <form id="uploadForm" action="/upload-single" method="post" enctype="multipart/form-data">
+        <input type="file" name="logo" />
+        <input type="text" name="username" />
+        <input type="submit" value="表单提交">
+    </form>
+    <button onclick="doUpload()">ajax提交</button>
+</body>
+</html>
+```
+
+- 单元测试
+## 自动化测试 mocha
+Mocha('摩卡')，诞生于2011年，现在比较流行的JavaSscript测试框架之一,可以运行于Node环境和浏览器环境
+ 
+测试框架:可以运行测试的工具。通过他，可以为JavaScript应用 添加测试,从而保证代码质量
+> 参考文档
+[mochajs](https://mochajs.org/)
+[mocha中文文档](https://segmentfault.com/a/1190000011362879)
+### 安装配置
+ 
+使用npm 全局安装
+ 
+``` 
+$ npm install --global mocha
+```
+ 
+项目依赖 局部安装 
+ 
+```
+$ npm install mocha
+```
