@@ -18,7 +18,8 @@
 - 内置  (系统自带, node安装好就已经存在)
 - 自定义 (项目里独立的js文件, 根据commonjs 规范定义)
 - 第三方模块 (被安装在 node-modules 文件夹中)
-    + npm init
+    + npm (nodejs  package manager) nodejs 包管理器
+    + npm init   
     + npm install 模块名 --save
     + npm uninstall 模块名
 
