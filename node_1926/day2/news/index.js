@@ -23,6 +23,7 @@ app.get('/userinfo', function(request, response) {
     })
 })
 
+
 // 定义了一个 post 请求服务 请求路径  /register
 app.post('/register', function(request, response) {
     response.send({
