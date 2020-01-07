@@ -68,7 +68,7 @@
     + escape
     + unescape
 
-作业
+作业  深度遍历  
 用nodejs 遍历目录树 (参考 nodejs.org 官网 文档 fs.readdir)
 
 ### 服务器相关知识

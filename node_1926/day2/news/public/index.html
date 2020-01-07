@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <link href="style.css" rel="stylesheet" /> 
+        <script src="js/axios.min.js"></script>
+        <script src="js/hello.js"></script>
+    </head>
+    <body class="largefont" style="color: red">
+     index page first page
+     <script>
+         hello('张三')
+
+         function getUserInfo() {
+            alert('ok');
+
+            axios.get('/userinfo').then(function(res) {
+                console.log(res.data)
+                alert(res.data.user.name)
+            });
+         }
+
+         function registerUser() {
+            axios.post('/register').then(function(res) {
+                console.log(res.data);
+                alert(res.data.msg)
+            })
+         }
+
+     </script>
+
+     <button onclick="getUserInfo()">获取用户信息</button>
+
+
+     <button onclick="registerUser()">注册</button>
+    </body>
+</html>
