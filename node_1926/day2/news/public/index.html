@@ -11,7 +11,7 @@
 
          function getUserInfo() {
             alert('ok');
-
+            // axios.get() 返回一个 promise 对象
             axios.get('/userinfo').then(function(res) {
                 console.log(res.data)
                 alert(res.data.user.name)
@@ -19,6 +19,7 @@
          }
 
          function registerUser() {
+             // axios.post 返回 promise
             axios.post('/register').then(function(res) {
                 console.log(res.data);
                 alert(res.data.msg)
@@ -28,7 +29,6 @@
      </script>
 
      <button onclick="getUserInfo()">获取用户信息</button>
-
 
      <button onclick="registerUser()">注册</button>
     </body>

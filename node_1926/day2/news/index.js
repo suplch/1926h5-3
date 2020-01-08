@@ -1,13 +1,15 @@
 
+// 获取第三方模块  express
 const express = require('express');
 const path = require('path');
 // 调用 express 函数, 产生一个App 实例
 const app = express();
+//  public 文件夹的绝对路径
 const publicPath = path.join(__dirname, 'public')
 
-// 创建一个静态文件 访问的中间件
+// 创建一个静态文件 访问的中间件 express 对象上 有一个 static 方法
 const publicMiddleware = express.static(publicPath)
-// 使用这个 中间件
+// app 实例有一个方法叫 use, 用来使用某个 中间件,  使用这个 中间件
 app.use(publicMiddleware)
 
 // 定义了一个 get 请求服务 请求路径  /userinfo
