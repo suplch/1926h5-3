@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        qf 后台管理系统
+        <script>
+
+            function parseCookie() {
+                let result = {};
+                let parts = document.cookie.split(';');
+                for (let i = 0; i < parts.length; i++) {
+                    let part = parts[i];
+                    name_value = part.split('=');
+                    
+                    let cooieName = name_value[0];
+                    let cookieValue = name_value[1];
+
+                    result[cooieName] = cookieValue
+                }
+                return result;
+            }
+
+            let cookieObj = parseCookie();
+
+            if (!cookieObj.token) {
+                alert('token 失效 请重新登录');
+                location.href = './login.html';
+            }
+
+        </script>
+    </body>
+</html>

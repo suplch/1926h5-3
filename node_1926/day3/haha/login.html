@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="./axios.min.js"></script>
+        <script>
+            function login() {
+                let uname = document.getElementById('uname').value;
+                let upwd = document.getElementById('upwd').value;
+                // axios.post 方法返回 promise
+                axios.post('/login', {
+                    username: uname,
+                    password: upwd
+                }).then(function(result) {
+                    console.log(result);
+                    if (result.data.code === 100) {
+                        location.href = './admin.html';
+                    } else {
+                        alert(result.data.msg);
+                    }
+                })
+            }
+        </script>
+    </head>
+    <body>
+        用户名: <input id="uname" />
+        密码: <input id="upwd" />
+        <button onclick="login()">提交</button>
+    </body>
+</html>

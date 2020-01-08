@@ -95,6 +95,7 @@
 ### 中间件 链式处理请求
     - 1 express.static
     - 2 require('body-parser').json()
+    - 3 require('cookie-parser')
     - 3 如何自定义中间件
     - 4 模板引擎EJS
 
