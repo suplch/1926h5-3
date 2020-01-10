@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script src="./axios.min.js"></script>
+        <script>
+            function loadGoods() {
+                // get 先返回一个 promise 对象
+                const promise = axios.get('/goods/list');
+                // 调用 then 方法, 回调函数取数据
+                promise.then(function(res) {
+                    console.log(res);
+                    // 返回 后台的 商品数据的数组
+                    const goods_list = res.data.goods_list
+                    // 获取呈现数据 的div 容器
+                    const listDiv = document.getElementById('goods_list')
+                    // 提前清理 内容
+                    listDiv.innerHTML = '';
+                    // 遍历 数组 
+                    for (var i = 0; i < goods_list.length; i++) {
+                        let goods = goods_list[i];
+                        // 针对每一数组 元素 ,创建一个 div 元素
+                        let itemDiv = document.createElement('div');
+                        itemDiv.style.border = "solid 5px red";
+                        itemDiv.style.margin = '10px'
+                        // 将数据 放入 div
+                        itemDiv.innerHTML = `
+                            ${goods.name}, ${goods.price}, ${goods.pic}
+                        `;
+                        listDiv.appendChild(itemDiv);
+                    }
+
+                });
+
+            }
+        </script>
+        商品浏览 <button onclick="loadGoods()">加载数据</button>
+        <div id="goods_list">
+
+        </div>
+    </body>
+</html>

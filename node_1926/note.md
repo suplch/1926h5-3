@@ -113,9 +113,8 @@
 晚自习: 
 
 安装 MongoDB 数据库软件
-
 ### mongodb 环境配置安装
-> 在`Mongodb`官网下载最新版本的[Mongodb下载地址](https://cloud.mongodb.com/)
+https://www.mongodb.com/
 > 
 > 下载`msi`的`window`安装包，可以装到C盘或者D盘目录下
 > 
