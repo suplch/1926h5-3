@@ -3,6 +3,49 @@
     <body>
         <script src="./axios.min.js"></script>
         <script>
+            function editGoods(goods_id) {
+
+            }
+            function addGoods(){
+                var goodsName = document.getElementById('goods_name').value;
+                var goodsPrice = document.getElementById('goods_price').value;
+                var goodsDesc = document.getElementById('goods_desc').value;
+                var goodsImg = document.getElementById('goods_img').value;
+
+                axios.post('/goods/add', {
+                    name: goodsName,
+                    price: goodsPrice,
+                    desc: goodsDesc,
+                    pic: goodsImg
+                }).then(function(res) {
+                    if (res.data.code === 100) {
+                        alert('创建成功');
+                        document.getElementById('goods_name').value = ''
+                        document.getElementById('goods_price').value = '';
+                        document.getElementById('goods_desc').value = '';
+                        document.getElementById('goods_img').value = '';
+                        loadGoods();
+                    } else {
+                        alert('失败: ' + res.data.code);
+                    }
+                })
+            }
+
+            function delGoods(goods_id) {
+                alert(goods_id);
+                axios.post('/goods/del', {
+                    goods_id: goods_id
+                }).then(function(res) {
+                    if (res.data.code === 100) {
+                        alert('删除成功');
+                        loadGoods();
+                    } else{
+                        alert('删除失败: (' + res.data.code + ')')
+                    }
+
+                });
+            }
+
             function loadGoods() {
                 // get 先返回一个 promise 对象
                 const promise = axios.get('/goods/list');
@@ -25,6 +68,8 @@
                         // 将数据 放入 div
                         itemDiv.innerHTML = `
                             ${goods.name}, ${goods.price}, ${goods.pic}
+                            <button onclick="delGoods('${goods._id}')">删除</button>
+                            <button onclick="editGoods('${goods._id}')">修改</button>
                         `;
                         listDiv.appendChild(itemDiv);
                     }
@@ -37,5 +82,11 @@
         <div id="goods_list">
 
         </div>
+        <hr/>
+        名称: <input id="goods_name" type="text" /> <br/>
+        价格: <input id="goods_price" type="number" /><br/>
+        描述: <textarea id="goods_desc"></textarea><br/>
+        图片: <input id="goods_img" /><br/>
+        <button onclick="addGoods()">提交</button> 
     </body>
 </html>
