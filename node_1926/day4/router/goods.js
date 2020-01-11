@@ -1,14 +1,14 @@
 const express = require('express');
 
+
+
 const {findGoods, delGoods, createGoods} = require('../db');
 
 // 
 const goodsRouter = express.Router()
 // 路由对象 相当于一个小型的 app 
 goodsRouter.get('/list', async function(request, response) {
-
     let goods_list = await findGoods();
-    
     response.send({
         code: 100,
         msg: '商品列表',
@@ -33,7 +33,6 @@ goodsRouter.post('/del', async function(request, response) {
             msg: err.message
         })
     }
-    
 })
 
 goodsRouter.post('/add', async function(request, response) {

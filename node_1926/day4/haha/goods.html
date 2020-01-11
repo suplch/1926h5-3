@@ -51,6 +51,10 @@
                 const promise = axios.get('/goods/list');
                 // 调用 then 方法, 回调函数取数据
                 promise.then(function(res) {
+                    if (res.data.code === 109) {
+                        location.href = './login.html'
+                        return;
+                    }
                     console.log(res);
                     // 返回 后台的 商品数据的数组
                     const goods_list = res.data.goods_list

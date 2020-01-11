@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <script src="./axios.min.js"></script>
+    <script>
+        function login() {
+            let uname = document.getElementById('uname').value.trim();
+            let upwd = document.getElementById('upwd').value.trim();
+
+            axios.post('/auth/login', {
+                username: uname,
+                password: upwd
+            }).then(function(res) {
+                console.log(res.data)
+                if (res.data.code === 100) {
+                    location.href = './goods.html'
+                }
+            })
+        }
+
+    </script>
+    用户名: <input id="uname" type="text" /><br/>
+    密码: <input id="upwd" type="password" /><br/>
+    <button onclick="login()">登录</button>
+</body>
+</html>

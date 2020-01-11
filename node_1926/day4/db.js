@@ -9,7 +9,24 @@ const goodsSchema = mongoose.Schema({
     pic: String
 })
 
+const userSchema = mongoose.Schema({
+    username: String,
+    password: String
+})
+
 const Goods = mongoose.model('Goods', goodsSchema)
+const User = mongoose.model('User', userSchema)
+
+async function getUserByUserName(username) {
+    let query = User.findOne({username: username});
+    let user = await query.exec();
+    return user;
+}
+
+async function registerUser(user) {
+    console.log('registerUser', user)
+    return await User.create(user);
+}
 
 async function findGoods() {
     let goods_list = await Goods.find();
@@ -27,5 +44,7 @@ async function createGoods(goods) {
 module.exports = {
     findGoods,
     delGoods,
-    createGoods
+    createGoods,
+    registerUser,
+    getUserByUserName
 }
