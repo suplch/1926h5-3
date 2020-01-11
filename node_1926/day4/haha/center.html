@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<body>
+    <body>
+        <body>
+            <script src="./axios.min.js"></script>
+            <script>
+                function doUpload() {
+                    // 创建ajax 对象, 提前指定一下参数
+                    var ajax = axios.create({
+                        baseURL: '/',
+                        timeout: 1000000,
+                        headers: {
+                            "Content-Type": 'multipart/form-data'
+                        }
+                    });
+                    // 创建一个表单数据对象
+                    const formData = new FormData(document.getElementById('uploadForm'));
+                    // 提交表单数据
+                    ajax.post('/addhead', formData).then(function(res) {
+                        console.log(res);
+                    })
+
+                }
+            </script>
+            <form id="uploadForm" method="post" enctype="multipart/form-data">
+                头像: <input type="file" name="head" />
+                昵称: <input type="text" name="nickname" />
+            </form>
+            <button onclick="doUpload()">ajax提交</button>
+    </body>
+</body>

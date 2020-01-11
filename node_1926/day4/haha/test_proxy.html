@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+    <body>
+        <script src="./axios.min.js"></script>
+        <script>
+            function getInfo() {
+                axios.get('/getmaoyan').then(function(res) {
+                    console.log(res.data);
+                });
+            }
+
+            function getMaoInfo() {
+        //var path = '/ajax/movieOnInfoList?token=&optimus_uuid=844E1B501FE311EA961CD36275BB4F817590FE81DB08466697EE7AE1D57CC0D7&optimus_risk_level=71&optimus_code=10';
+                var path22 = '/ajax/cinemaList?day=2020-01-11&offset=0&limit=20&districtId=-1&lineId=-1&hallType=-1&brandId=-1&serviceId=-1&areaId=-1&stationId=-1&item=&updateShowDay=true&reqId=1578728123591&cityId=1&optimus_uuid=844E1B501FE311EA961CD36275BB4F817590FE81DB08466697EE7AE1D57CC0D7&optimus_risk_level=71&optimus_code=10';
+                axios.get(path22).then(function(res) {
+                    console.log(res.data)
+                });
+            }
+        </script>
+        <button onclick="getInfo()">获取 信息</button>
+
+        <button onclick="getMaoInfo()">获取 猫眼 信息</button>
+
+    </body>
+</html>

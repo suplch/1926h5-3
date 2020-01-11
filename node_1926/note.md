@@ -565,8 +565,8 @@ module.exports={
 
     ## 文件上传
 
-    
-```ecmascript 6
++ npm install multer --save
+```javascript
 const multer = require('multer');
 
 const storage = multer.diskStorage({
