@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+
+        <div id="app">
+            <!-- 直接将数组输出到页面中 -->
+            {{ students }}
+
+            <ul> <!-- v-for 指令 vue 提供的 用来循环访问数组模型 -->
+                <li v-for="stu in students">
+                    {{ stu }}
+                </li>
+            </ul>
+        </div>
+         
+
+        <script>
+            // new Vue 实例
+            new Vue({
+                el: '#app', // 告诉 vue div id 为 app 的元素 由 vue 来接管
+                data: {     // data 参数代表了 数据模型
+                    students: [
+                        '张三',
+                        '李四',
+                        '王五'
+                    ]
+                }
+            });    
+        </script>
+    </body>
+</html>

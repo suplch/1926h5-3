@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+
+        <div id="app">
+            <table border=1>
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>年龄</th>
+                        <th>描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- v-for 遍历 数组模型, 每一个元素是一个 对象 -->
+                    <tr v-for="stu in students">
+                        <!-- 通过 对象.属性 访问 -->
+                        <td>{{ stu.name }}</td>
+                        <td>{{ stu.age }}</td>
+                        <td>
+                            {{ stu.age >= 18 ? '成年': '未成年' }}
+                        </td>
+                        <td>
+                            {{ stu }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+         
+
+        <script>
+            // new Vue 实例
+            new Vue({
+                el: '#app', // 告诉 vue div id 为 app 的元素 由 vue 来接管
+                data: {     // data 参数代表了 数据模型
+                    students: [
+                        {name: '张三', age: 18},
+                        {name: '李四', age: 28},
+                        {name: '王五', age: 10},
+                    ]
+                }
+            });    
+        </script>
+    </body>
+</html>
