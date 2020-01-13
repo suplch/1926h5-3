@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <!--  模板  template -->
+        <div id="app">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                        <th>成绩</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- v-for 循环指令 -->
+                    <tr v-for="student in students">
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.sex }}</td>
+                        <td>{{ student.age }}</td>
+                        <td>{{ student.score }}</td>
+                        <td> <!-- v-on 用来监听一个事件, v-on:click 监听 点击事件 -->
+                            <button v-on:click="del_student_v1">删除 v1</button>
+                            <button v-on:click="del_student_v2(student)">删除 v2</button>
+                            <button v-on:click="edit_student(student)">修改</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            合计
+                        </td>
+                        <td> </td>
+                        <td> {{ totalScore }} </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">平均值</td>
+                        <td> </td>
+                        <td> {{ avgScore }} </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <!-- ref 属性是vue 提供的一个特殊的属性, 用来快速的获取 html 元素的 -->
+            姓名: <input ref="stuName" />
+            年龄: <input ref="stuAge" />
+            性别: <input ref="stuSex" />
+            分数: <input ref="stuScore" />
+            <button v-on:click="add_student">添加学生</button>
+            <hr/>
+            当前正在修改 {{ currentStudent }}
+        </div>
+         
+        <script>
+            let id = 1000;
+            // new Vue 实例
+            let myvue = new Vue({
+                el: '#app', // 告诉 vue div id 为 app 的元素 由 vue 来接管
+                data: {     // data 参数代表了 数据模型
+                    students: [
+                        {id: '111', name: '张三', age: 18, sex: '男', score: 100},
+                        {id: '222', name: '李四', age: 28, sex: '女', score: 99},
+                        {id: '333', name: '王五', age: 10, sex: '男', score: 80},
+                    ],
+                    // 跟踪 当前修改的 学生对象
+                    currentStudent: undefined
+                },
+                methods: { // 定义若干方法
+                    del_student_v1(event) {
+                        alert('删除按钮 click');
+                        console.log(event)
+                    },
+                    del_student_v2(student) {
+                        console.log(student)
+                        // 方法中的 this 表示 当前 vue 的示例对象
+                        console.log(this)
+                        console.log(myvue === this)
+                        // 返回 student 在 数组中的位置
+                        let position = this.students.indexOf(student);
+                        // 删除一条数据
+                        this.students.splice(position, 1);
+                    },
+                    add_student() {
+                        // 添加了一个学生数据
+                        this.students.push({
+                            id: id++, 
+                            name: this.$refs.stuName.value,  // 通过 $refs 获取具体的dom元素
+                            age: this.$refs.stuAge.value, 
+                            sex: this.$refs.stuSex.value, 
+                            score: Number(this.$refs.stuScore.value)
+                        })
+
+                        this.$refs.stuName.value = '';  // 通过 $refs 获取具体的dom元素
+                        this.$refs.stuAge.value = ''; 
+                        this.$refs.stuSex.value = '';
+                        this.$refs.stuScore.value = '';
+                    },
+                    edit_student(student) {
+                        // 跟踪 当前修改的 student 对象
+                        this.currentStudent = student
+                    }
+                },
+                computed: { // 计算属性 , 当去访问计算属性的时候 实际上是在调用对应的函数
+                    sum: function() {
+                        return 1 + 1
+                    },
+                    totalScore: function () {
+                        // 方法中的 this 表示 当前 vue 的示例对象
+                        // for (let student of this.students) {
+
+                        // }
+                        let total = 0;
+                        for (let i = 0; i < this.students.length; i++) {
+                            let student = this.students[i];
+                            total += student.score;
+
+                        }
+                        return total
+                    },
+                    avgScore: function() {
+                        let total = 0;
+                        for (let i = 0; i < this.students.length; i++) {
+                            let student = this.students[i];
+                            total += student.score;
+
+                        }
+                        return total / this.students.length
+                    }
+                }
+            });   
+
+            console.log(myvue); 
+        </script>
+    </body>
+</html>
