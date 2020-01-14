@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+
+        <script>
+            // 闭包操作
+            function createTV() {
+                let onOff = false;
+                let n = 1;
+                let tid = setInterval(function() {
+                    n++;
+                    if (onOff) {
+                        console.log('正在播放庆余年第' + n + '集')
+                    }
+                }, 1000);
+                return {
+                    turnOn: function() {
+                        onOff = true;
+                    },
+                    turnOff: function() {
+                        onOff = false;
+                    },
+                    destroy() {
+                        // 清除 内部 计时器
+                        clearInterval(tid);
+                    }
+                }
+            }
+            let tv = createTV();
+        </script>
+        <button onclick="tv.turnOn()">开机</button>
+        <button onclick="tv.turnOff()">关机</button>
+        <button onclick="tv.destroy();tv = null;">销毁</button>
+    </body>
+</html>

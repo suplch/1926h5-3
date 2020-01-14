@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        雏形  
+        原型验证机
+
+        <script>
+            function Snake() {
+                this.long = '5米';
+            }
+
+            Snake.prototype.action = function() {
+                // this 是什么, 其实 this 就是 *****我*****
+                console.log('一只'+ this.long + '的蛇 正在挖洞')
+            }
+
+            let s1 = new Snake();
+            console.log(s1.long);
+            s1.action();
+
+
+            function Person() {
+                Snake.call(this)
+                this.name = '白娘子';
+            }
+
+            Person.prototype.action = function() {
+                Snake.prototype.action.call(this)
+                console.log('化妆')
+            }
+
+            let p1 = new Person();
+
+            console.log(p1.name);
+            console.log(p1.long)
+            p1.action();
+
+
+
+        </script>
+    </body>
+</html>
