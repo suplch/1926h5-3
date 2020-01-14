@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+
+        <div id="app">
+            <!-- v-model 是一个 v-bind:value, v-on:input 的语法糖 -->
+            <input v-model="welcome" />
+            <!-- v-bind 指令, 用来 绑定 属性值-->
+            <input v-bind:value="welcome" v-on:input="changeWel" />
+            {{ welcome }}
+            <hr/>
+            {{ welcome.length }}
+            <hr/>
+            {{ welcome.toUpperCase() }}
+            <!-- v-html指令 底层 是 innerHTML -->
+            <span v-html="welcome"></span>
+            <button @click="switchShow">切换显示</button>
+            <div v-if="showInfo" style="border: solid 5px red;">
+                重要消息111
+            </div>
+            <div v-show="showInfo" style="border: solid 5px green;">
+                重要消息222
+            </div>
+
+            <ul>
+                <li :key="student.id" v-for="(student, index) in students">
+                    {{index}}, {{ student.name }}, {{ student.age}}
+                </li>
+            </ul>
+            <hr/>
+            <ul>
+                <li :key="student.id" v-for="(student, index) of students">
+                    {{index}}, {{ student.name }}, {{ student.age}}
+                </li>
+            </ul>
+            <hr/>
+            <button @click="showP()">显示 person</button>
+            <!-- ***** template 是一个虚构的元素, 他自身不会被渲染到 dom 里面, 他只是 指令的容器 -->
+            <template v-if="showPerson" style="border: solid 5px green;">
+                <div v-if="person.age < 18">
+                    少年
+                </div>
+                <div v-else-if="person.age < 30">
+                    青年
+                </div>
+                <div v-else-if="person.age < 50">
+                    中年
+                </div>
+                <div v-else>
+                    老年
+                </div>
+                <button @click="incAge">增加年龄</button>
+                <ul>
+                    <li v-for="(value, key) in person">
+                        {{value}}, {{key}}
+                    </li>
+                </ul>
+            </template>
+            <div v-else>
+                没有person 信息
+            </div>
+
+            <ul>
+                <li v-for="n in 10">
+                    {{ n }}
+                </li>
+            </ul>
+
+            <img src="https://www.baidu.com/img/bd_logo1.png"/>
+            <img :src="welcome" />
+
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    welcome: 'hello world',
+                    showInfo: true,
+                    students: [
+                        {id: '111', name: '张三', age: 18},
+                        {id: '222', name: '李四', age: 28},
+                        {id: '333', name: '王五', age: 8},
+                    ],
+                    showPerson: false,
+                    person: {
+                        name: '张三',
+                        age: 5,
+                        sex: '男'
+                    }
+                },
+                methods: { // 声明 方法
+                    changeWel(event) {
+                        console.log(event.target.value);
+                        this.welcome = event.target.value
+                    },
+                    switchShow() {
+                        this.showInfo = !this.showInfo
+                    },
+                    showP() {
+                        this.showPerson = !this.showPerson;
+                    },
+                    incAge() {
+                        this.person.age += 10;
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
