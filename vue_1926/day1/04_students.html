@@ -20,16 +20,30 @@
                 </thead>
                 <tbody>
                     <!-- v-for 循环指令 -->
-                    <tr v-for="student in students">
+                    <tr v-for="student in students" v-bind:style="{background: student === currentStudent? 'red': '' }">
                         <td>{{ student.id }}</td>
-                        <td>{{ student.name }}</td>
-                        <td>{{ student.sex }}</td>
-                        <td>{{ student.age }}</td>
-                        <td>{{ student.score }}</td>
+                        <!-- 条件成立 说明 当前 student 处于编辑状态 -->
+                        <template v-if="student === currentStudent">
+                            <td><input ref="s_name" v-bind:value="student.name" /></td>
+                            <td><input ref="s_sex" v-bind:value="student.sex" /></td>
+                            <td><input ref="s_age" v-bind:value="student.age" /></td>
+                            <td><input ref="s_score" v-bind:value="student.score" /></td>
+                        </template>
+                        <template v-else>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.sex }}</td>
+                            <td>{{ student.age }}</td>
+                            <td>{{ student.score }}</td>
+                        </template>
+
                         <td> <!-- v-on 用来监听一个事件, v-on:click 监听 点击事件 -->
                             <button v-on:click="del_student_v1">删除 v1</button>
                             <button v-on:click="del_student_v2(student)">删除 v2</button>
-                            <button v-on:click="edit_student(student)">修改</button>
+                            <button v-if="student !== currentStudent" v-on:click="edit_student(student)">修改</button>
+                            <template v-else>
+                                <button @click="saveStudent">确定</button>
+                                <button @click="cancelEdit">取消</button>
+                            </template>
                         </td>
                     </tr>
                 </tbody>
@@ -56,6 +70,7 @@
             <button v-on:click="add_student">添加学生</button>
             <hr/>
             当前正在修改 {{ currentStudent }}
+            <button @click="replaceFirst">提供第一个学生</button>
         </div>
 
         <script>
@@ -73,6 +88,12 @@
                     currentStudent: undefined
                 },
                 methods: { // 定义若干方法
+                    replaceFirst() {
+                        //this.students[0] = {id: '111', name: 'zhang san', age: 18, sex: '女', score: 100}
+                        // 由于 vue 无法 检测 下标 的赋值, 所有提供了一个 Vue.set 方法
+                        Vue.set(this.students, 0, {id: '111', name: 'zhang san', age: 18, sex: '女', score: 100});
+                        console.log(this.students)
+                    },
                     del_student_v1(event) {
                         alert('删除按钮 click');
                         console.log(event)
@@ -105,6 +126,20 @@
                     edit_student(student) {
                         // 跟踪 当前修改的 student 对象
                         this.currentStudent = student
+                    },
+                    cancelEdit() {
+                        if (window.confirm('真的要放弃吗?')) {
+                            this.currentStudent = undefined;
+                        }
+                    },
+                    saveStudent() {
+                        this.currentStudent.name = this.$refs.s_name[0].value;
+                        this.currentStudent.sex = this.$refs.s_sex[0].value;
+                        this.currentStudent.age = this.$refs.s_age[0].value;
+                        this.currentStudent.score = Number(this.$refs.s_score[0].value);
+
+                        this.currentStudent = undefined;
+                        
                     }
                 },
                 computed: { // 计算属性 , 当去访问计算属性的时候 实际上是在调用对应的函数

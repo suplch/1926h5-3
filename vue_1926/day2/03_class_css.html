@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+        <style>
+            .box1 {
+                border: solid 5px red;
+            }
+            .box1_w {
+                width: 100px;
+            }
+            .box2 {
+                border: solid 5px green;
+            }
+            .box2_w {
+                width: 100px;
+            }
+            .box2_1 {
+                border: solid 5px darkgreen;
+            }
+            .b3 {
+                border: solid 5px blue;
+            }
+            .b3_w {
+                width: 100px
+            }
+            .b3_h {
+                height: 100px
+            }
+
+            .b4 {
+                border: solid 5px pink
+            }
+
+            .b4_w {
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div class="box1 box1_w">
+                box1
+            </div>
+            <div v-on:click="changeB2" v-bind:class="b2">
+                box2
+            </div>
+            <div v-on:click="changeB3" v-bind:class="b3">
+                box3
+            </div>
+            <div v-bind:class="{b4: true, b4_w: false}">
+                box4
+            </div>
+            <div v-bind:class="box4">
+                box4
+            </div>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    b2: 'box2',
+                    b3: [
+                        'b3', 'b3_w', 'b3_h'
+                    ],
+                    box4: {
+                        b4: true, 
+                        b4_w: false
+                    }
+                },
+                methods: {
+                    changeB2() {
+                        this.b2 = 'box2_1 box2_w'
+                    },
+                    changeB3() {
+                        this.b3.pop();
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

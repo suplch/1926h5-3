@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+
+    </head>
+    <body>
+        <div id="app">
+            <div style="border: solid 5px red; width: 200px; height: 200px;">
+                box1
+            </div>
+            <div v-on:click="moreLarge" v-bind:style="box2">
+                box2 vue 控制 style
+            </div>
+            <div @click="moreBox3"
+                v-bind:style="{border: 'solid 5px blue', width: b3_width, height: b3_height}">
+                box3 vue 控制 style
+            </div>
+            <div :style="[{border: 'solid 5px red'}, {width: '100px'}, {height: '100px'}]">
+                box4
+            </div>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    box2: {
+                        border: 'solid 5px green',
+                        width: '100px',
+                        height: '100px'
+                    },
+                    b3_width: '100px',
+                    b3_height: '100px'
+                },
+                methods: {
+                    moreLarge() {
+                        alert('b2');
+                        this.box2.width = '200px';
+                        this.box2.height = '200px';
+                    },
+                    moreBox3() {
+                        alert('b3')
+                        this.b3_width = '200px';
+                        this.b3_height = '200px';
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
