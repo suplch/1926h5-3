@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+        <script>
+            // 全局eventBus 对象
+            // 只要 组件使用这个 eventBus 实例对象, 任意传递数据
+            window.eventBus = new Vue();
+        </script>
+        <script src="./boy.js"></script>
+        <script src="./girl.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            组件通信
+            <Boy></Boy>
+            <hr/>
+            <Girl></Girl>
+        </div>
+        <script>
+            new Vue({
+                el: '#app'
+            })
+        </script>
+    </body>
+</html>

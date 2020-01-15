@@ -39,13 +39,6 @@
                 },
                 // watch 监控属性的变化
                 watch: {
-                    person: {
-                        firstName(newValue, oldValue) {
-                            console.log('新值', newValue);
-                            console.log('老值', oldValue);
-                            
-                        }
-                    },
                     // 想一想 watch监控 的意义 
                     // 当数据模型 firstName 发生变化, 那么调用此函数,
                     // 参数 newValue 最新的值, oldValue 上一次的值
