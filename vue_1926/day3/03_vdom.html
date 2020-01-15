@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <!-- <div style="border: solid 1px red" class="box">
+            <ul>
+                <li>Java</li>
+                <li>Node</li>
+            </ul>
+            <button>按钮</button>
+        </div> -->
+
+        <script>
+            // 虚拟dom 对象
+            let vnode = {
+                tag: 'div',
+                attrs: [{style: 'border: solid 1px red'}, {class: 'box'}],
+                children: [
+                    {
+                        tag: 'ul',
+                        children: [
+                            {
+                                tag: 'li',
+                                children: ['Java']
+                            },
+                            {
+                                tag: 'li',
+                                children: ['Node']
+                            }
+                        ]
+                    },
+                    {
+                        tag: 'button',
+                        children: ['按钮']
+                    }
+                ]
+            }
+            // 实现 虚拟 dom 翻译 为真实dom
+            function translate(vnode) {
+                // TODO
+
+            }
+
+            let el = translate(vnode)
+
+            document.body.appendChild(el);
+
+        </script>
+    </body>
+    </html>

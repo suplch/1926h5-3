@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            姓: <input v-model="person.firstName"/> 名: <input v-model="person.lastName" />
+            <hr/>
+            计算属性: 全名: {{ fullName }}, {{ fullName }}, {{ fullName }}
+            <hr/>
+            方法调用: 全名: {{ quanming() }}, {{ quanming() }}, {{ quanming() }}
+            <input ref="xingming" /> <button @click="setName">设置名字</button>
+
+            全名 普通属性 {{ person.fname }}
+        </div>
+        <script>
+            // 关于 计算属性
+            new Vue({
+                el: '#app',
+                data: {
+                    person: {
+                        firstName: 'zhang',
+                        lastName: 'san',
+                        fname: 'zhang san'
+                    }
+                },
+                methods: {
+                    quanming() {
+                        console.log('正在计算 全名: 方法调用')
+                        return this.person.firstName + ' ' + this.person.lastName
+                    },
+                    setName() {
+                        let name = this.$refs.xingming.value;
+                        console.log(name);
+                        this.fullName = name;
+                    }
+                },
+                // watch 监控属性的变化
+                watch: {
+                    person: {
+                        firstName(newValue, oldValue) {
+                            console.log('新值', newValue);
+                            console.log('老值', oldValue);
+                            
+                        }
+                    },
+                    // 想一想 watch监控 的意义 
+                    // 当数据模型 firstName 发生变化, 那么调用此函数,
+                    // 参数 newValue 最新的值, oldValue 上一次的值
+                    'person.firstName': function(newValue, oldValue) {
+                        console.log('新值', newValue);
+                        console.log('老值', oldValue);
+                        this.person.fname = newValue + ' ' + this.person.lastName
+                    },
+                    'person.lastName': function(newValue, oldValue) {
+                        this.person.fname = this.person.firstName + ' ' + newValue
+                    }
+                },
+
+                computed: { // 计算属性定义
+                    // 只计算一次 然后缓存, 除非 依赖的其他属性发生变化, 然后再次计算
+                    // fullName() {  // 依赖于 firstName  lastName
+                    //     console.log('正在计算 全名: 计算属性')
+                    //     return this.person.firstName + ' ' + this.person.lastName
+                    // }
+                    fullName: {
+                        get() {
+                            console.log('正在计算 全名: 计算属性')
+                            return this.person.firstName + ' ' + this.person.lastName
+                        },
+                        set(value) {
+                            let parts = value.split(' ');
+                            this.person.firstName = parts[0];
+                            this.person.lastName = parts[1];
+                        }
+                    }
+                }
+
+            })
+
+        </script>
+    </body>
+</html>
