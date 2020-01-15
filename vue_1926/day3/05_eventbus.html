@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+
+        <script>
+            const eventbus = new Vue();
+
+            // 监听事件
+            // $on(事件名称, 事件回调函数), 回调函数可以接受到事件参数
+            eventbus.$on('我饿了', function(food) {
+                console.log('我要吃' + food)
+            });
+
+            eventbus.$on('我渴了', function(water) {
+                console.log('我要喝 ' + water)
+            });
+
+            // $emit 广播事件
+            // $emit(事件名称, 事件参数)
+            eventbus.$emit('我饿了', '🍞')
+            eventbus.$emit('我饿了', '🥟')
+
+            eventbus.$emit('我渴了', '饮料');
+
+        </script>
+    </body>
+</html>

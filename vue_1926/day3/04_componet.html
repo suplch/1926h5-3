@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+        <script src="./lib/axios.min.js"></script>
+        <script src="./login_component.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- Login 是一个自定义组件  -->
+            <!-- loginname, password 是自定义属性 -->
+            <!-- v-on:loginok 是一个自定义事件 -->
+            <!-- 实现了组件的通信 -->
+            <Login ref="login" v-bind:loginname="lgName" password="口令" v-on:loginok="loginOk"></Login>
+            <hr/>
+            <ul>
+                <li v-for="msg of msg_list">
+                    {{ msg.title }}, {{ msg.content }}
+                </li>
+            </ul>
+            <button @click="getLoginObj">获取 login 组件的实例</button>
+        </div>
+        <script>
+            // 作者: 李四
+            let myvue = new Vue({
+                el: '#app',
+                // 混合的注意事项 后面混入的对象里面项目,会将前面的覆盖掉
+                data: {
+                    lgName: '登录名',
+                    msg_list: []
+                },
+                methods: {
+                    // event 表示事件发生时候, 传递出来的参数
+                    loginOk(event) {
+                        alert('ok');
+                        console.log(event);
+                        axios.get('/message/list').then((res) => {
+                            this.msg_list = res.data.msg_list
+                        });
+                    },
+                    getLoginObj() {
+                        // lg 就是 Long 组件的实例
+                        // ***** 高级的小技巧
+                        let lg = this.$refs.login;
+                        console.log(lg);
+                        // 千万不要滥用, 除非你有把握
+                        lg.login();
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
