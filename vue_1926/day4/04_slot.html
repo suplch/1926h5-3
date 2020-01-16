@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <Message info="一些信息blabla.范德萨范德萨范德萨...">
+                <ul>
+                    <li v-for="lesson of lessons">{{ lesson }}</li>
+                </ul>
+                <button>😃</button>
+            </Message>
+        </div>
+        <script>
+
+            Vue.component('Message', {
+                props: ['info'],
+                template: `
+                    <div style="display: flex; flex-direction: column;  border: solid 5px red; width: 400px; height: 300px">
+                        <header style="background: lightgrey; height: 50px;">
+                            消息框
+                        </header>
+                        <section style="flex: 1">
+                            <!-- slot 插槽 -->
+                            <slot></slot>
+                        </section>
+                        <footer style="background: lightgrey; height: 50px;">
+                            <button>确定</button>
+                        </footer>
+                    </div>
+                `
+            })
+
+            new Vue({
+                el: '#app',
+                data: {
+                    lessons: [
+                        'java', 'node', 'css', 'html'
+                    ]
+                }
+            })
+        </script>
+    </body>
+</html>
