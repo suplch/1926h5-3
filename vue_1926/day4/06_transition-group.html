@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+        <style>
+            li {
+                background: red;
+                margin: 5px;
+            }
+
+            .fade-enter-active, .fade-leave-active {
+                transition: opacity 5s;
+            }
+            .fade-enter, .fade-leave-to  {
+                opacity: 0;
+            }
+            
+            .fade-enter-to, .fade-leave {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <button @click="addLesson">添加课程</button>
+            <ul></ul>
+            <transition-group
+                v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:after-enter=""
+                v-on:leave="leave"
+                name="fade">
+                <li v-bind:key="lesson" v-for="(lesson, index) of lessons">
+                    {{lesson}} <button @click="del(index)">删除</button>
+                </li>
+            </transition-group>
+        </ul>
+
+        </div>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    lessons: [
+                        'java', 'node', 'html', 'js'
+                    ]
+                },
+                methods: {
+                    del(index) {
+                        this.lessons.splice(index, 1);
+                    },
+                    addLesson() {
+                        this.lessons.push(
+                            window.prompt('请输入课程名称')
+                        )
+                    },
+                    beforeEnter() {
+                        console.log('beforeEnter')
+                    },
+                    enter() {
+                        console.log('enter')
+                    },
+                    afterEnter() {
+                        console.log('afterenter')
+                    },
+                    leave() {
+                        console.log('leave')
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

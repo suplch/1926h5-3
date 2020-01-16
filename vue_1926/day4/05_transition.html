@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+        <style>
+            .move-enter-active {
+                transition: top 2s, left 5s, background-color 5s;
+            }
+
+            .move-leave-active {
+                transition: top 2s, left 5s, background-color 5s;
+            }
+
+            .move-enter {
+                left: -100px;
+                background-color: rgba(255, 0, 0, 0)
+            }
+            .move-leave-to {
+                left: -100px;
+                background-color: rgba(255, 0, 0, 0)
+            }
+
+            .move-enter-to {
+                left: 100px;
+                background-color: rgba(255, 0, 0, 1)
+            }
+            .move-leave {
+                left: 100px;
+                background-color: rgba(255, 0, 0, 1)
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <button @click="show = !show">切换</button>
+
+            <transition name="move">
+                <div v-if="show" style="position: absolute; border: solid 5px red; width: 100px; height: 100px">
+                    box
+                </div>
+            </transition>
+            
+
+            <div style="transition: width 5s; width: 100px; height: 100px; background: red; position: absolute; top: 300px">
+                box
+            </div>
+
+        </div>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    show: true
+                }
+            })
+        </script>
+    </body>
+</html>

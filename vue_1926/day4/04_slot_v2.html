@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+        <script src="./message.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <Message info="一些信息blabla.范德萨范德萨范德萨...">
+                <template v-slot:head>
+                    <h1>消息对话框</h1>
+                </template>
+                <template v-slot:content>
+                    <ul>
+                        <li v-for="lesson of lessons">{{ lesson }}</li>
+                    </ul>
+                    <button>😃</button>
+                </template>
+                <template v-slot:foot>
+                    <button>确定</button>
+                    <button>取消</button>
+                </template>
+            </Message>
+        </div>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    lessons: [
+                        'java', 'node', 'css', 'html'
+                    ]
+                }
+            })
+        </script>
+    </body>
+</html>
