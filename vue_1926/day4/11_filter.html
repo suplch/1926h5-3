@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body >
+        <div id="app">
+            <input v-model="welcome" />
+            <hr/>
+            {{  welcome }}
+            <hr/>
+            {{  welcome | up  }}
+            <hr />
+            {{  welcome | firstUp }}<br/>
+            {{  welcome | lastUp }}<br/>
+            <!-- 过滤器可以 级联调用 -->
+            {{  welcome | firstUp | lastUp}}
+            <hr />
+            {{ welcome | firstUpWrod }}
+            <hr />
+            {{ welcome | case }}<br/>
+            <!-- 过滤器可以传递额外的参数 -->
+            {{ welcome | case('up') }}<br/>
+            {{ welcome | case('down') }}<br/>
+            <hr/>
+            {{ welcome }}
+        </div>
+        <script>
+            // 定义了一个全局过滤器 up
+            Vue.filter('up', function(value) {
+                return value.toUpperCase();
+            });
+
+            Vue.filter('case', function(value, dir, a1, a2, a3) {
+                if (dir == 'up') {
+                    return value.toUpperCase();
+                } else if (dir == 'down') {
+                    return value.toLowerCase();
+                } else {
+                    return value;
+                }
+            });
+
+            Vue.filter('firstUp', function(value) {
+                let firstChar = value.charAt(0);
+                return firstChar.toUpperCase() + value.substring(1)
+            });
+
+            Vue.filter('lastUp', function(value) {
+                let lastChar = value.charAt(value.length - 1);
+                return value.substring(0, value.length - 1) + lastChar.toUpperCase();
+            });
+
+            Vue.filter('firstUpWrod', function(value) {
+                let words = value.split(' ');
+                let newWords = [];
+                for (let word of words) {
+                    newWords.push(word.charAt(0).toUpperCase() + word.substring(1));
+                }
+                return newWords.join(' ')
+            });
+
+            new Vue({
+                el: '#app',
+                data: {
+                    welcome: 'welcome to beijing'
+                },
+                methods: {
+                    
+                }
+            })
+        </script>
+    </body>
+</html>
