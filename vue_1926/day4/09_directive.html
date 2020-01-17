@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div v-if="show" v-timer></div>
+            <input value="a" v-focus:3000 />
+            <!-- <input value="b" v-focus /> -->
+            <button v-on:click="changeVisible">切换</button>
+            <p v-visible="show">Hello world !!!</p>
+            <p v-show="show">Hello world !!!</p>
+        </div>
+        <script>
+            // *****  指令一旦学好了, 可以干 无限的事情
+            Vue.directive('timer', {
+                inserted(el, binding) {
+                    el.innerHTML = new Date().toLocaleString();
+                    this.tid =setInterval(function() {
+                        el.innerHTML = new Date().toLocaleString();
+                        console.log(el.innerHTML)
+                    }, 1000);
+                },
+                // unbind 是一个钩子函数, 当指令和元素解绑的时候, 即 销毁 调用
+                unbind() {
+                    clearInterval(this.tid)
+                }
+            });
+
+            Vue.directive('focus', {
+                // inserted 是一个钩子函数, 当指令和元素被插入到 界面是调用
+                inserted(el, binding) {
+                    console.log(el.value)
+                    console.log(binding)
+                    setTimeout(function() {
+                        el.focus();
+                    }, Number(binding.arg));
+                }
+            });
+
+            // 自定义指令, 应用到 dom 元素上, 可以对其进行修改, 操作
+            Vue.directive('visible', {
+                // bind 是一个钩子函数, 当指令和 元素绑定的时候调用
+                bind(el, binding, vnode) {
+                    console.log(el);
+                    el.style.display = binding.value ? '': 'none'
+                    el.style.color = 'red';
+                    el.addEventListener('click', function() {
+                        alert('hello world')
+                    });
+                    console.log(binding)
+                },
+                // update 是一个钩子函数, 当指令 的 value 属性发生变化调用
+                update(el, binding) {
+                    console.log(binding.value);
+                    el.style.display = binding.value ? '': 'none'
+                }
+            });
+
+            new Vue({
+                el: '#app',
+                data: {
+                    welcome: '欢迎',
+                    show: true
+                },
+                methods: {
+                    changeVisible() {
+                        this.show = !this.show;
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

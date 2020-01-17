@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="./swiper/swiper.min.css" rel="stylesheet" />
+        <script src="./swiper/swiper.min.js"></script>
+        <script src="./lib/vue.js"></script>
+        <style>
+            html, body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0
+            }
+            #app {
+                width: 100%;
+                height: 100%
+            }
+            .swiper-container {
+                height: 400px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <Swiper v-bind:items="fruits" keyname="code">
+                <template v-for="fruit of fruits" v-slot:[fruit.code]>
+                    {{ fruit.text }}, {{ fruit.price }}, {{ fruit.pic }}
+                </template>
+            </Swiper>
+        </div>
+        <script>
+            // 包装 Swiper 第三方组件
+            Vue.component('Swiper', {
+                // 定义 参数, 接收外部数据, items
+                // keyname 告诉组件, item 对象里面 的 id 是哪个
+                props: ['items', 'keyname'],
+                template: `
+                    <div ref="container" class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div v-for="item of items" class="swiper-slide">
+                                <slot v-bind:name="item[keyname]"></slot>    
+                            </div>
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                `,
+                mounted() {
+                    // 当组件挂载到后 可以访问到 this.$refs 
+                    var swiper = new Swiper(this.$refs.container, {
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+                    });
+                }
+            })
+
+            new Vue({
+                el: '#app',
+                data: {
+                    fruits: [
+                        {code: '111', text: '香蕉', price: 10, pic: '🍌'},
+                        {code: '222', text: '葡萄', price: 10, pic: '🍇'},
+                        {code: '333', text: '西瓜', price: 10, pic: '🍉'},
+                        {code: '444', text: '苹果', price: 10, pic: '🍎'},
+                        {code: '555', text: '橘子', price: 10, pic: '🍊'},
+                                         
+                    ]
+                }
+            })
+        </script>
+    </body>
+</html>
